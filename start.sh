@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-# Prepare Laravel dirs on the mounted volume
+# Prepare Laravel dirs
 mkdir -p /var/www/app/storage/logs \
          /var/www/app/storage/framework/cache \
          /var/www/app/storage/framework/sessions \
@@ -10,12 +10,11 @@ mkdir -p /var/www/app/storage/logs \
 
 chown -R www-data:www-data /var/www/app/storage /var/www/app/bootstrap/cache || true
 
-# Safe to run repeatedly
-php artisan optimize || true
+# DO NOT optimize before DB is reachable
 php artisan migrate --force || true
-php artisan key:generate --force || true
 
+# Now it's safe
+php artisan optimize || true
 
-# Start php-fpm in background, nginx in foreground (PID 1)
 php-fpm -D
 exec nginx -g 'daemon off;'

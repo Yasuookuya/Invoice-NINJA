@@ -13,6 +13,8 @@ chown -R www-data:www-data /var/www/app/storage /var/www/app/bootstrap/cache || 
 # Safe to run repeatedly
 php artisan optimize || true
 php artisan migrate --force || true
+php artisan key:generate --force || true
+
 
 # Start php-fpm in background, nginx in foreground (PID 1)
 php-fpm -D

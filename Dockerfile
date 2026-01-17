@@ -1,15 +1,9 @@
 FROM invoiceninja/invoiceninja:5
 
 USER root
-
-# Install PostgreSQL build deps and PHP extensions
-RUN apk add --no-cache postgresql-dev \
- && docker-php-ext-install pdo_pgsql pgsql
-
-# Install nginx
 RUN apk add --no-cache nginx
 
-# Nginx config
+# Nginx config for Laravel public dir and php-fpm on 127.0.0.1:9000
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY start.sh /start.sh
 RUN chmod +x /start.sh

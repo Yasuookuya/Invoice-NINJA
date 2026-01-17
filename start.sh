@@ -15,5 +15,7 @@ chown -R www-data:www-data /var/www/app/storage /var/www/app/bootstrap/cache || 
 php artisan optimize || true
 php artisan migrate --force || true
 
+sed -i "s/\${PORT}/${PORT}/g" /etc/nginx/nginx.conf
+
 # 4) Hand off to the standard supervisor (nginx + php-fpm)
 exec supervisord -c /etc/supervisord.conf

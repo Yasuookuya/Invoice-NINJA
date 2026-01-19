@@ -14,6 +14,7 @@ chown -R www-data:www-data /var/www/app/storage /var/www/app/bootstrap/cache || 
 # 3) Laravel prep (ok if run multiple times)
 php artisan optimize || true
 php artisan migrate --force || true
+php artisan key:generate || true
 
 sed -i "s/\${PORT}/${PORT}/g" /etc/nginx/nginx.conf
 
